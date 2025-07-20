@@ -1,0 +1,16 @@
+[Unit]
+Description=OpenTelemetry Collector clickhouse, ophum custom build 
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/otelcol-clickhouse/otelcol-clickhouse.conf
+ExecStart=/usr/bin/otelcol-clickhouse $OTELCOL_OPTIONS
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=mixed
+Restart=on-failure
+Type=simple
+User=otelcol-clickhouse
+Group=otelcol-clickhouse
+
+[Install]
+WantedBy=multi-user.target

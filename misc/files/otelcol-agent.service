@@ -1,0 +1,16 @@
+[Unit]
+Description=OpenTelemetry Collector Agent, ophum custom build 
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/otelcol-agent/otelcol-agent.conf
+ExecStart=/usr/bin/otelcol-agent $OTELCOL_OPTIONS
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=mixed
+Restart=on-failure
+Type=simple
+User=otelcol-agent
+Group=otelcol-agent
+
+[Install]
+WantedBy=multi-user.target

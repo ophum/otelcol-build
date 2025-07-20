@@ -43,6 +43,18 @@ nfpms:
     formats:
       - deb
     maintainer: ophum
+    contents:
+      - dst: /lib/systemd/system/otelcol-agent.service
+        src: misc/files/otelcol-agent.service
+        type: config
+      - dst: /etc/otelcol-agent/config.yaml
+        src: misc/files/otelcol-agent-config.yaml
+        type: config
+      - dst: /etc/otelcol-agent/otelcol-agent.conf
+        src: misc/files/otelcol-agent.conf
+    scripts:
+      preinstall: misc/files/otelcol-agent-preinstall.sh
+      postinstall: misc/files/otelcol-agent-postinstall.sh
   - id: otelcol-clickhouse
     package_name: otelcol-clickhouse
     ids:
@@ -51,6 +63,28 @@ nfpms:
     formats:
       - deb
     maintainer: ophum
+    contents:
+      - dst: /lib/systemd/system/otelcol-clickhouse.service
+        src: misc/files/otelcol-clickhouse.service
+        type: config
+      - dst: /etc/otelcol-clickhouse/config.yaml
+        src: misc/files/otelcol-clickhouse-config.yaml
+        type: config
+      - dst: /etc/otelcol-clickhouse/otelcol-clickhouse.conf
+        src: misc/files/otelcol-clickhouse.conf
+    scripts:
+      preinstall: misc/files/otelcol-clickhouse-preinstall.sh
+      postinstall: misc/files/otelcol-clickhouse-postinstall.sh
+
+archives:
+  - id: otelcol-agent
+    ids:
+      - otelcol-agent
+    format: binary
+  - id: otelcol-clickhouse
+    ids:
+      - otelcol-clickhouse
+    format: binary
 
 changelog:
   sort: asc
@@ -60,6 +94,9 @@ changelog:
       - "^test:"
 
 release:
+  github:
+    owner: ophum
+    name: otelcol-build
   footer: >-
 
     ---
