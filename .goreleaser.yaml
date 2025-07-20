@@ -1,0 +1,67 @@
+# This is an example .goreleaser.yml file with some sensible defaults.
+# Make sure to check the documentation at https://goreleaser.com
+
+# The lines below are called `modelines`. See `:help modeline`
+# Feel free to remove those if you don't want/need to use them.
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj
+
+version: 2
+
+project_name: otelcol-build
+before:
+  hooks:
+    - sh -c 'cd ./cmd/otelcol-agent && go mod tidy'
+    - sh -c 'cd ./cmd/otelcol-clickhouse && go mod tidy'
+
+builds:
+  - id: otelcol-agent
+    dir: ./cmd/otelcol-agent
+    binary: otelcol-agent
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+  - id: otelcol-clickhouse
+    dir: ./cmd/otelcol-clickhouse
+    binary: otelcol-clickhouse
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+
+nfpms:
+  - id: otelcol-agent
+    package_name: otelcol-agent
+    ids:
+      - otelcol-agent
+    license: Apache 2.0
+    formats:
+      - deb
+    maintainer: ophum
+  - id: otelcol-clickhouse
+    package_name: otelcol-clickhouse
+    ids:
+      - otelcol-clickhouse
+    license: Apache 2.0
+    formats:
+      - deb
+    maintainer: ophum
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+
+release:
+  footer: >-
+
+    ---
+
+    Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
