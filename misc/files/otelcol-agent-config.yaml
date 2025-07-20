@@ -13,7 +13,7 @@ exporters:
   debug:
 
 service:
-  pipeline:
+  pipelines:
     traces:
       receivers: [otlp]
       processors: [batch]
